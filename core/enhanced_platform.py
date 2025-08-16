@@ -199,10 +199,17 @@ async def initialize_llm_connections():
 # Serve custom frontend at root
 @app.get("/", response_class=HTMLResponse)
 async def serve_custom_frontend():
-    """Serve OpenWebUI by default; fallback to built-in dashboard"""
-    # If an OpenWebUI base URL is set, redirect root to the proxied UI path
+    """Serve OpenWebUI by default when reachable; otherwise the built-in dashboard"""
+    # Prefer OpenWebUI if configured and reachable
     if OPENWEBUI_BASE_URL:
-        return RedirectResponse(url="/ui", status_code=307)
+        try:
+            async with httpx.AsyncClient() as client:
+                resp = await client.get(OPENWEBUI_BASE_URL, timeout=1.5)
+                if resp.status_code < 500:
+                    return RedirectResponse(url="/ui", status_code=307)
+        except Exception:
+            # Fall back to dashboard if not reachable
+            pass
 
     # Fallback: Serve index.html if present, otherwise the built-in dashboard
     index_path = project_root / "index.html"
