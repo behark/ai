@@ -25,8 +25,8 @@ RUN mkdir -p /app/databases/runtime /app/logs
 # Set permissions for optional local initialization script
 RUN chmod +x /app/initialize_databases.sh || true
 
-# Expose port
+# Expose default port (platforms may override with $PORT)
 EXPOSE 8000
 
-# Run the application
-CMD ["python", "-m", "uvicorn", "core.enhanced_platform:app", "--host", "0.0.0.0", "--port", "8000"]
+# Run the application (bind to $PORT if provided)
+CMD ["sh", "-c", "python -m uvicorn core.enhanced_platform:app --host 0.0.0.0 --port ${PORT:-8000}"]
