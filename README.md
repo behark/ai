@@ -46,6 +46,10 @@ Troubleshooting
 - For initial local SQLite usage, run:
    bash initialize_databases.sh
 
+Railway (API-only) notes
+- The backend can link to an external OpenWebUI via OPENWEBUI_BASE_URL (e.g., https://chat.example.com).
+- If you want LLM chat to work from Railway, set OLLAMA_BASE_URL to a reachable Ollama endpoint (e.g., on your VPS: http://YOUR_VPS_IP:11434).
+- After setting variables, redeploy and visit / (root) to use the /chat link or /ui proxy.
+
 License
 - Proprietary or TBD by repository owner.
-
