@@ -17,7 +17,7 @@ import httpx
 import uvicorn
 from fastapi import FastAPI, HTTPException, Response, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.responses import HTMLResponse, FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -199,12 +199,16 @@ async def initialize_llm_connections():
 # Serve custom frontend at root
 @app.get("/", response_class=HTMLResponse)
 async def serve_custom_frontend():
-    """Serve the custom AI Behar Platform frontend"""
+    """Serve OpenWebUI by default; fallback to built-in dashboard"""
+    # If an OpenWebUI base URL is set, redirect root to the proxied UI path
+    if OPENWEBUI_BASE_URL:
+        return RedirectResponse(url="/ui", status_code=307)
+
+    # Fallback: Serve index.html if present, otherwise the built-in dashboard
     index_path = project_root / "index.html"
     if index_path.exists():
         return FileResponse(str(index_path))
     else:
-        # Fallback to the built-in dashboard
         return await serve_dashboard()
 
 @app.get("/dashboard", response_class=HTMLResponse)
