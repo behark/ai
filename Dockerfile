@@ -31,4 +31,4 @@ RUN chmod +x /app/initialize_databases.sh || true
 EXPOSE 8000
 
 # Run the application (bind to $PORT if provided)
-CMD ["sh", "-c", "python -m uvicorn core.enhanced_platform:app --host 0.0.0.0 --port ${PORT:-8000}"]
+CMD ["sh", "-c", "exec uvicorn core.enhanced_platform:app --host 0.0.0.0 --port \"${PORT:-8000}\""]
