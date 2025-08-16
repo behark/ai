@@ -9,12 +9,14 @@ RUN apt-get update && apt-get install -y \
     sqlite3 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements
+# Copy requirements (minimal API and full)
+COPY requirements.api.txt .
 COPY requirements.txt .
 
 # Install Python dependencies
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel \
-    && pip install --no-cache-dir -r requirements.txt || echo "Some packages could not be installed, but core functionality will work"
+    && pip install --no-cache-dir -r requirements.api.txt \
+    && (pip install --no-cache-dir -r requirements.txt || echo "Full requirements had failures; API deps installed successfully")
 
 # Copy application code
 COPY . .
