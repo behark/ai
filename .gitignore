@@ -1,0 +1,41 @@
+# Secrets and env
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+
+# Virtual envs
+venv/
+.venv/
+
+# Logs and local data
+logs/
+**/*.log
+.databases/
+databases/
+*.db
+*.sqlite*
+
+# Node / frontend
+node_modules/
+open-webui/build/
+
+# IDE/editor
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker artifacts
+.docker/
+*.local
+

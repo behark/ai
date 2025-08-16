@@ -1,0 +1,38 @@
+# Exclude local-only files from Docker build context
+.env
+.env.*
+!.env.example
+
+# Python cache and venv
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+venv/
+.venv/
+
+# Logs and databases
+logs/
+**/*.log
+databases/
+*.db
+*.sqlite*
+
+# Node / frontend
+node_modules/
+open-webui/
+frontend/
+
+# Large/local directories
+archived_data/
+development/
+development_data/
+legacy_*/
+monitoring/**/data/
+
+# VCS
+.git/
+.gitignore
+.docker/
+
